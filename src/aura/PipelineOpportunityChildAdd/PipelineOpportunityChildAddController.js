@@ -4,7 +4,7 @@
 ({
     //close the modal window
     closeModal: function(component, event, helper) {
-        component.find("utilityUIFunctions").closeModal(component);
+        helper.closeModal(component);
     },
     handleLoaded: function(component, event, helper) {
         //display bulk toggle on fields loaded
