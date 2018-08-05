@@ -1,8 +1,10 @@
+<!--TODO-me hide child date and child stage if copying from PPO-->
+<!--TODO-me not finding initial default PPC if no children-->
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="PipelineOpportunityControllerLightning">
     <!-- ATTRIBUTES -->
     <aura:attribute name="sourceRecords" type="Object"/>
     <aura:attribute name="sourceRecordFields" type="List"/>
-    <aura:attribute name="recordId" type="String" default="0065D000003OTvaQAG"/>
+    <aura:attribute name="recordId" type="String" default="0065D000003S0DDQA0"/>
     <aura:attribute name="parentOppty" type="Object"/>
     <aura:attribute name="loading" type="Boolean" default="true"/>
     <!-- This attribute will hold the update records from data table-->
@@ -33,8 +35,8 @@
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <lightning:card title="Opportunities">
         <aura:set attribute="actions">
-            <lightning:button onclick="{!c.showAddOpportunity}" name="add" label="Add Opportunity"/>
-            <lightning:button onclick="{!c.showAdjustCloseDate}" name="add" label="Adjust Close Date"/>
+            <lightning:button onclick="{!c.showAddOpportunity}" name="addOpportunity" label="Add Opportunity"/>
+            <lightning:button onclick="{!c.showAdjustCloseDate}" name="adjustCloseDate" aura:id="adjustCloseDate" label="Adjust Close Date" class="slds-hide"/>
         </aura:set>
 
         <aura:if isTrue="{!v.loading}">

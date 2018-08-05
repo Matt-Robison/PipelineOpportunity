@@ -12,7 +12,14 @@
         action.setCallback(this,function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
-                component.set("v.sourceRecords", response.getReturnValue());
+                var childOpportunities = response.getReturnValue();
+
+                component.set("v.sourceRecords", childOpportunities);
+                if(childOpportunities.length > 0) {
+                    this.showAdjustDateButton(component, event, helper);
+                } else {
+                    this.hideAdjustDateButton(component, event, helper);
+                }
             }
 
             component.find("utilityUIFunctions").hideLoading(component);
@@ -43,5 +50,14 @@
             }
         });
         $A.enqueueAction(action);
-    }
+    },
+    // show Adjust Close Date Button
+    showAdjustDateButton : function(component, event, helper) {
+        $A.util.removeClass(component.find("adjustCloseDate"), "slds-hide");
+    },
+
+    // hide Adjust Close Date Button
+    hideAdjustDateButton : function(component, event, helper) {
+        $A.util.addClass(component.find("adjustCloseDate"), "slds-hide");
+    },
 })
