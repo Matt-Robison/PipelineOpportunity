@@ -1,0 +1,48 @@
+<aura:component description="PipelineOpportunityChildAdd" controller="PipelineOpportunityControllerLightning">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="defaultOppRecord" type="Opportunity"/>
+    <aura:attribute name="bulkAddProperties" type="Map" default="{bulkAdd : false, bulkNumber : '1', bulkMonths : '1'}" />
+    <aura:attribute name="loading" type="Boolean" default="true"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="reloadChildOpportunityData" type="c:PipelineOpportunity_evt_Action"/>
+
+    <!-- MODAL LIBRARY -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <!-- UTILITY FUNCTIONS -->
+    <c:UtilityApexFunctions aura:id="utilityApexFunctions" />
+    <c:UtilityUIFunctions aura:id="utilityUIFunctions" />
+
+    <!-- LOADING SPINNER -->
+    <aura:if isTrue="{!v.loading}">
+        <div class="spinnerHolder">
+            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium"/>
+        </div>
+    </aura:if>
+
+    <!-- ADD OPPORTUNITIES FORM -->
+    <lightning:recordEditForm aura:id="editForm"
+                              onload="{!c.handleLoaded}"
+                              onsuccess="{!c.handleSaved}"
+                              recordId=""
+                              objectApiName="Opportunity">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" padding="around-small"><lightning:messages /></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="Amount" fieldName="Amount" value="{#v.defaultOppRecord.Amount}"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="Description" fieldName="Description" value="{#v.defaultOppRecord.Description}"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="CloseDate" fieldName="CloseDate"  value="{#v.defaultOppRecord.CloseDate}"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="StageName" fieldName="StageName"  value="{#v.defaultOppRecord.StageName}"/></lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small" aura:id="bulkToggle" class="slds-hide">
+                <lightning:input type="toggle" label="Bulk Add?" name="bulkAdd" aura:id="bulkAdd" checked="{!v.bulkAddProperties.bulkAdd}" messageToggleActive="On" messageToggleInactive="Off" onchange="{!c.handleBulkToggleClick}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small" aura:id="bulkNumberLayout" class="slds-hide">
+                <lightning:input type="text" label="Opportunities to add" aura:id="bulkNumber" name="bulkNumber" value="{!v.bulkAddProperties.bulkNumber}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small" aura:id="bulkMonthsLayout" class="slds-hide">
+                <lightning:input type="text" label="Months between each" aura:id="bulkMonths" name="bulkMonths" value="{!v.bulkAddProperties.bulkMonths}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="horizontal-small"><lightning:button variant="brand" aura:id="save" name="save" label="Save" onclick="{!c.saveClick}"/> <lightning:button name="cancel" label="Cancel" onclick="{!c.closeModal}"/></lightning:layoutItem>
+        </lightning:layout>
+    </lightning:recordEditForm>
+</aura:component>

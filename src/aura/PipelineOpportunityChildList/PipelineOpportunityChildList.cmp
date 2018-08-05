@@ -1,0 +1,53 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="PipelineOpportunityControllerLightning">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="sourceRecords" type="Object"/>
+    <aura:attribute name="sourceRecordFields" type="List"/>
+    <aura:attribute name="recordId" type="String" default="0065D000003OTvaQAG"/>
+    <aura:attribute name="parentOppty" type="Object"/>
+    <aura:attribute name="loading" type="Boolean" default="true"/>
+    <!-- This attribute will hold the update records from data table-->
+    <aura:attribute name="updatedRecords" type="Object[]" />
+
+    <!-- EVENTS -->
+    <!--Handle component event for child components-->
+    <aura:handler name="reloadChildOpportunityData" event="c:PipelineOpportunity_evt_Action" action="{!c.reloadChildOpportunityData}"/>
+    <!--Handle application events for non related components-->
+    <aura:handler event="c:PipelineOpportunity_aevt_ReloadChildren" action="{!c.reloadChildOpportunityData}"/>
+
+    <!-- MODAL LIBRARY -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <!-- UTILITY FUNCTIONS -->
+    <c:UtilityApexFunctions aura:id="utilityApexFunctions" />
+    <c:UtilityUIFunctions aura:id="utilityUIFunctions" />
+
+    <!-- DATA LOADER -->
+    <!-- Load data about parent opportunity-->
+    <force:recordData aura:id="opportunityService"
+                      recordId="{!v.recordId}"
+                      targetRecord="{!v.parentOppty}"
+                      fields="Id, Name, Description_Short__c, CloseDate, StageName"
+                      mode="VIEW"
+    />
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <lightning:card title="Opportunities">
+        <aura:set attribute="actions">
+            <lightning:button onclick="{!c.showAddOpportunity}" name="add" label="Add Opportunity"/>
+            <lightning:button onclick="{!c.showAdjustCloseDate}" name="add" label="Adjust Close Date"/>
+        </aura:set>
+
+        <aura:if isTrue="{!v.loading}">
+            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
+        </aura:if>
+
+        <lightning:datatable
+                aura:id="opportunitiesDataTable"
+                columns="{! v.sourceRecordFields }"
+                data="{! v.sourceRecords }"
+                keyField="Id"
+                onsave ="{!c.onSave}"
+                hideCheckboxColumn="true"
+                onrowaction="{! c.handleRowAction }" />
+    </lightning:card>
+</aura:component>

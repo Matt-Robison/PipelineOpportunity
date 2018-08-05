@@ -1,0 +1,3 @@
+<!--c:PipelineOpportunity_aevt_ReloadChildren-->
+<aura:event type="APPLICATION" description="c:PipelineOpportunity_aevt_ReloadChildren">
+</aura:event>

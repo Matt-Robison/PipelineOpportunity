@@ -1,0 +1,5 @@
+/*spinner was showing full screen and not within modal popup*/
+.THIS.spinnerHolder{
+    position: relative !important;
+    padding: 10px;
+}

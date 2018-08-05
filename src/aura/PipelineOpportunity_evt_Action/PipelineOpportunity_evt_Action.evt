@@ -1,0 +1,3 @@
+<!--c:PipelineOpportunity_evt_Action-->
+<aura:event type="COMPONENT" description="c:PipelineOpportunity_evt_Action">
+</aura:event>

@@ -1,0 +1,45 @@
+<aura:component description="PipelineOpportunityChildAdjustDate" controller="PipelineOpportunityControllerLightning">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="parentRecordId" type="String"/>
+    <aura:attribute name="monthsAdjust" type="Integer" default="1"/>
+    <aura:attribute name="actionOptions" type="List" default="[
+                                                        {'label': 'Add', 'value': 'Add'},
+                                                        {'label': 'Subtract', 'value': 'Subtract'}
+                                                        ]"/>
+    <aura:attribute name="selectedAction" type="String" default="Add"/>
+    <aura:attribute name="loading" type="Boolean" default="false"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="reloadChildOpportunityData" type="c:PipelineOpportunity_evt_Action"/>
+
+    <!-- MODAL LIBRARY -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <!-- UTILITY FUNCTIONS -->
+    <c:UtilityApexFunctions aura:id="utilityApexFunctions" />
+    <c:UtilityUIFunctions aura:id="utilityUIFunctions" />
+
+    <aura:if isTrue="{!v.loading}">
+        <div class="spinnerHolder">
+            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium"/>
+        </div>
+    </aura:if>
+
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" padding="around-small">This will add or subtract a set number of months from all listed Child Opportunties Close Date</lightning:layoutItem>
+        <lightning:layoutItem size="12" padding="around-small">
+            <lightning:radioGroup name="actionToPerformRadio"
+                                  label="Choose action:"
+                                  options="{! v.actionOptions }"
+                                  value="{! v.selectedAction }"
+                                  type="button"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" padding="around-small">
+             <lightning:input type="number" label="{! 'Number of months to ' + v.selectedAction + '?'}" name="actionValue" value="{!v.monthsAdjust}" min="1"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <lightning:button variant="brand" aura:id="update" name="update" label="Update" onclick="{!c.updateClick}"/>
+            <lightning:button name="cancel" label="Cancel" onclick="{!c.closeModal}"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

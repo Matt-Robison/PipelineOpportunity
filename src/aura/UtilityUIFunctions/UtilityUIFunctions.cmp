@@ -1,0 +1,33 @@
+<!--Reusable UI functions-->
+<aura:component description="UtilityUIFunctions">
+    <!--Show toast green success message-->
+    <aura:method access="public" name="showToastSuccess" action="{!c.showToastSuccess}">
+        <aura:attribute name="sourceComponent" type="Aura.Component" />
+        <aura:attribute name="title" type="String" />
+        <aura:attribute name="message" type="String" />
+    </aura:method>
+
+    <!--Show toast red error message-->
+    <aura:method access="public" name="showToastError" action="{!c.showToastError}">
+        <aura:attribute name="sourceComponent" type="Aura.Component" />
+        <aura:attribute name="title" type="String" />
+        <aura:attribute name="message" type="String" />
+    </aura:method>
+
+    <!--Show loading spinner, requires component called 'loading' in sourceComponent-->
+    <aura:method access="public" name="showLoading" action="{!c.showLoading}">
+        <aura:attribute name="sourceComponent" type="Aura.Component" />
+    </aura:method>
+
+    <!--Hide loading spinner, requires component called 'loading' in sourceComponent-->
+    <aura:method access="public" name="hideLoading" action="{!c.hideLoading}">
+        <aura:attribute name="sourceComponent" type="Aura.Component" />
+    </aura:method>
+
+    <!--Toggle between showing and hiding 2 components>-->
+    <aura:method access="public" name="toggleBetweenComponents" action="{!c.toggleBetweenComponents}">
+        <aura:attribute name="sourceComponent" type="Aura.Component" />
+        <aura:attribute name="firstComponentName" type="String" />
+        <aura:attribute name="secondComponentName" type="String" />
+    </aura:method>
+</aura:component>
