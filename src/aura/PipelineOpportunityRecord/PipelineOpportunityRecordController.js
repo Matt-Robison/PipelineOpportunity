@@ -1,9 +1,19 @@
 ({
+    // hide read view and open edit view
     edit: function(component, event, helper) {
         helper.showHide(component);
     },
+    // hide edit view and show read only
     cancel: function(component, event, helper) {
         helper.showHide(component);
+    },
+    // navigate to pipeline url
+    myPipeline: function(component, event, helper) {
+        var urlEvent = $A.get("e.force:navigateToURL");
+        urlEvent.setParams({
+            "url":"/apex/PipelineOpportunitiesListAll"
+        });
+        urlEvent.fire();
     },
     handleLoaded: function(component, event, helper) {
         component.find("utilityUIFunctions").hideLoading(component);

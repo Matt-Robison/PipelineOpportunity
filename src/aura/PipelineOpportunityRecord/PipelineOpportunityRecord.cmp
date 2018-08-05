@@ -1,4 +1,5 @@
-<!--TODO-me add component design for only OPP record page + documentation-->
+<!--TODO-me add component design for NEW OPP record page-->
+<!--TODO-me BUG record doesn't update view on edit save-->
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="PipelineOpportunityControllerLightning">
     <!-- ATTRIBUTES -->
     <aura:attribute name="recordId" type="Id" default="0065D000003OTvaQAG"/>
@@ -18,6 +19,7 @@
     <lightning:card aura:id="viewCard" iconName="standard:user" title="Pipeline">
         <aura:set attribute="actions">
             <lightning:button onclick="{!c.edit}" name="edit" label="Edit"/>
+            <lightning:button onclick="{!c.myPipeline}" name="myPipeline" label="My Pipeline"/>
         </aura:set>
         <aura:if isTrue="{!v.loading}">
             <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
