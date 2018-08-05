@@ -5,7 +5,11 @@
             {label: 'Opportunity Name', fieldName: 'Name', editable:'true', type: 'text'},
             {label: 'Close Date', fieldName: 'CloseDate', editable:'true', type: 'date'},
             {label: 'Stage', fieldName: 'StageName', editable:'true', type: 'text'},
-            {label: 'Description Short', fieldName: 'Description_Short__c', editable:'true', type: 'text'}
+            {label: 'Description Short', fieldName: 'Description_Short__c', editable:'true', type: 'text'},
+            {label: 'Campaign', fieldName: 'CampaignId', editable:'true', type: 'text'},
+            {label: 'Amount', fieldName: 'Amount', editable:'true', type: 'currency'},
+            {label: 'Description', fieldName: 'Description', editable:'true', type: 'text'},
+            {label: 'Type', fieldName: 'Type', editable:'true', type: 'text'},
         ]);
         helper.getChildOpportunities(component, event, helper);
     },
