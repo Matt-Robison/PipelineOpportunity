@@ -4,7 +4,7 @@
     <!-- ATTRIBUTES -->
     <aura:attribute name="recordId" type="Id" default="0065D000003OTvaQAG"/>
     <aura:attribute name="sourceRecord" type="Object" />
-    <aura:attribute name="sourceRecordFields" type="String[]" default="['Name','AccountId','CosmosDonorID__c','OwnerId','Count_Child_Opportunities__c','Child_Opportunity_Total__c',
+    <aura:attribute name="sourceRecordFields" type="String[]" default="['Name','AccountId','CosmosDonorID__c','OwnerId','Count_Child_Opportunities__c','Child_Opportunity_Total__c', 'Description_Short__c',
                                                          'Description','CloseDate','StageName','npsp__Primary_Contact__c','CopyCloseDatetoChildOpportunities__c','CopyStagetoChildOpportunities__c']" />
     <aura:attribute name="error" type="String" />
     <aura:attribute name="loading" type="Boolean" default="true"/>
@@ -34,12 +34,13 @@
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="AccountId" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Count_Child_Opportunities__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Child_Opportunity_Total__c" /></lightning:layoutItem>
+                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Description_Short__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Description" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CloseDate" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="StageName" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CopyCloseDatetoChildOpportunities__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
+                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
                 </lightning:layout>
             </lightning:recordViewForm>
         </p>
