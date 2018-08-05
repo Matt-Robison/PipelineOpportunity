@@ -44,6 +44,6 @@
     //disable button and set spinner
     setButtonUpdating : function (component, event, helper) {
         component.find("update").set("v.disabled", true);
-        helper.showLoading(component, event, helper);
+        component.find("utilityUIFunctions").showLoading(component);
     },
 })
