@@ -70,12 +70,13 @@
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="AccountId" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Count_Child_Opportunities__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Child_Opportunity_Total__c" /></lightning:layoutItem>
+                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description_Short__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CloseDate" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="StageName" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyCloseDatetoChildOpportunities__c" onchange="{!c.copyStageToChildren}"/></lightning:layoutItem>
                     <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
+                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
                 </lightning:layout>
             </lightning:recordEditForm>
         </p>
