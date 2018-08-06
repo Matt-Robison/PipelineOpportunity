@@ -1,11 +1,11 @@
 ({
     //show green success toast message
     showToastSuccess: function(component, helper, title, message) {
-        helper.showToast(component, title, message, "success");
+        this.showToast(component, title, message, "success");
     },
     //show red error toast message
     showToastError: function(component, helper, title, message) {
-        helper.showToast(component, title, message, "error");
+        this.showToast(component, title, message, "error");
     },
     //show toast message of specified type
     showToast: function(component, title, message, type) {
