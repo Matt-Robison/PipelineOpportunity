@@ -1,3 +1,4 @@
+<!--TODO-me Add button 'Add & Add Another'-->
 <aura:component description="PipelineOpportunityChildAdd" controller="PipelineOpportunityControllerLightning">
     <!-- ATTRIBUTES -->
     <aura:attribute name="defaultOppRecord" type="Opportunity"/>
@@ -25,14 +26,14 @@
     <lightning:recordEditForm aura:id="editForm"
                               onload="{!c.handleLoaded}"
                               onsuccess="{!c.handleSaved}"
-                              recordId=""
+                              recordId="{!v.defaultOppRecord.Id}"
                               objectApiName="Opportunity">
         <lightning:layout multipleRows="true">
             <lightning:layoutItem size="12" padding="around-small"><lightning:messages /></lightning:layoutItem>
-            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="Amount" fieldName="Amount" value="{#v.defaultOppRecord.Amount}"/></lightning:layoutItem>
-            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="Description" fieldName="Description" value="{#v.defaultOppRecord.Description}"/></lightning:layoutItem>
-            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="CloseDate" fieldName="CloseDate"  value="{#v.defaultOppRecord.CloseDate}"/></lightning:layoutItem>
-            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="StageName" fieldName="StageName"  value="{#v.defaultOppRecord.StageName}"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="Amount" fieldName="Amount"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="Description" fieldName="Description"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="CloseDate" fieldName="CloseDate"/></lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField aura:id="StageName" fieldName="StageName"/></lightning:layoutItem>
             <lightning:layoutItem size="4" padding="around-small" aura:id="bulkToggle" class="slds-hide">
                 <lightning:input type="toggle" label="Bulk Add?" name="bulkAdd" aura:id="bulkAdd" checked="{!v.bulkAddProperties.bulkAdd}" messageToggleActive="On" messageToggleInactive="Off" onchange="{!c.handleBulkToggleClick}"/>
             </lightning:layoutItem>
