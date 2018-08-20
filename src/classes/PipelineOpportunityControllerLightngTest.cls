@@ -147,6 +147,18 @@ private class PipelineOpportunityControllerLightngTest {
         System.assertNotEquals(date.today().addMonths(2), oppyList[4].CloseDate);
     }
 
+    //check if we can update all child opportunity close dates
+    @IsTest
+    static void checkPPORecordTypeIdReturned() {
+        String ppoRecordTypeId  = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('PartnershipsParentOpportunity').getRecordTypeId();
+
+        Test.startTest();
+        String recordTypeId = PipelineOpportunityControllerLightning.getPPORecordTypeId();
+        Test.stopTest();
+
+        System.assertEquals(ppoRecordTypeId, recordTypeId);
+    }
+
     //create set number of child opportunities
     private static void createChildOpportunities(Integer numChildOpps, Id parentId) {
         Id pcoRecordTypeId  = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Partnerships_Opportunity').getRecordTypeId();

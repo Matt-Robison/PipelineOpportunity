@@ -1,4 +1,8 @@
 ({
+    //initialise data
+    doInit : function(component, event, helper) {
+        helper.getPPORecordTypeId(component, event, helper);
+    },
     // hide read view and open edit view
     edit: function(component, event, helper) {
         helper.showHide(component);

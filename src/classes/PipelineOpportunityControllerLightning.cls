@@ -1,6 +1,11 @@
 //TODO-me - documentation
 public with sharing class PipelineOpportunityControllerLightning {
     @AuraEnabled
+    public static String getPPORecordTypeId() {
+        return Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('PartnershipsParentOpportunity').getRecordTypeId();
+    }
+
+    @AuraEnabled
     public static List<Opportunity> getChildOpportunities(String parentOpportunityId) {
         List <Opportunity> oppyList;
 
