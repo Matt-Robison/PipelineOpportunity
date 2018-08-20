@@ -4,7 +4,8 @@
     <!-- ATTRIBUTES -->
     <aura:attribute name="sourceRecords" type="Object"/>
     <aura:attribute name="sourceRecordFields" type="List"/>
-    <aura:attribute name="recordId" type="String" default="0065D000003S0DDQA0"/>
+    <aura:attribute name="recordId" type="String" default="0065D000003S0YMQA0"/>
+    <!--<aura:attribute name="recordId" type="String" default=""/>-->
     <aura:attribute name="parentOppty" type="Object"/>
     <aura:attribute name="loading" type="Boolean" default="true"/>
     <!-- This attribute will hold the update records from data table-->
@@ -33,23 +34,26 @@
     />
 
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
-    <lightning:card title="Opportunities">
-        <aura:set attribute="actions">
-            <lightning:button onclick="{!c.showAddOpportunity}" name="addOpportunity" label="Add Opportunity"/>
-            <lightning:button onclick="{!c.showAdjustCloseDate}" name="adjustCloseDate" aura:id="adjustCloseDate" label="Adjust Close Date" class="slds-hide"/>
-        </aura:set>
 
-        <aura:if isTrue="{!v.loading}">
-            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
-        </aura:if>
+    <aura:if isTrue="{!v.recordId != ''}">
+        <lightning:card title="Opportunities">
+            <aura:set attribute="actions">
+                <lightning:button onclick="{!c.showAddOpportunity}" name="addOpportunity" label="Add Opportunity"/>
+                <lightning:button onclick="{!c.showAdjustCloseDate}" name="adjustCloseDate" aura:id="adjustCloseDate" label="Adjust Close Date" class="slds-hide"/>
+            </aura:set>
 
-        <lightning:datatable
-                aura:id="opportunitiesDataTable"
-                columns="{! v.sourceRecordFields }"
-                data="{! v.sourceRecords }"
-                keyField="Id"
-                onsave ="{!c.onSave}"
-                hideCheckboxColumn="true"
-                onrowaction="{! c.handleRowAction }" />
-    </lightning:card>
+            <aura:if isTrue="{!v.loading}">
+                <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
+            </aura:if>
+
+            <lightning:datatable
+                    aura:id="opportunitiesDataTable"
+                    columns="{! v.sourceRecordFields }"
+                    data="{! v.sourceRecords }"
+                    keyField="Id"
+                    onsave ="{!c.onSave}"
+                    hideCheckboxColumn="true"
+                    onrowaction="{! c.handleRowAction }" />
+        </lightning:card>
+    </aura:if>
 </aura:component>
