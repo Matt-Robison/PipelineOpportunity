@@ -1,11 +1,11 @@
 ({
-    callApex: function (component, methodName, params, callback) {
+    callApex: function (component, methodName, params, successCallback, finalCallback, helperFunctions) {
         var action = component.get(methodName);
         action.setParams(params);
         action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === "SUCCESS") {
-                callback(component, response.getReturnValue());
+                callback(component, helperFunctions, response.getReturnValue());
             }
             else if (state === "INCOMPLETE") {
                 // do something
@@ -21,6 +21,7 @@
                     console.log("Unknown error");
                 }
             }
+            finalCallback(component, helperFunctions);
         });
         $A.enqueueAction(action);
     }

@@ -4,7 +4,9 @@
         var sourceComponent = params.sourceComponent;
         var methodName = params.methodName;
         var actionParameters = params.actionParameters;
-        var callbackFunction = params.callbackFunction;
-        helper.callApex(sourceComponent, methodName, actionParameters, callbackFunction);
+        var successCallbackFunction = params.successCallbackFunction;
+        var finalCallbackFunction = params.finalCallbackFunction;
+        var helperFunctions = params.helperFunctions;
+        helper.callApex(sourceComponent, methodName, actionParameters, successCallbackFunction, finalCallbackFunction, helperFunctions);
     }
 })
