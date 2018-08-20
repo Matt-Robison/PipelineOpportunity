@@ -23,6 +23,7 @@
         var parentOppRecordId =  component.get("v.defaultOppRecord").C2ParentOpportunity__c;
         var bulkAddProperties = component.get("v.bulkAddProperties");
 
+        //TODO-henry ????? Henry's great idea - maybe default this to default opp object and then pass through
         //create opportunity object for saving
         var opp = {'sobjectType':'Opportunity',
                     'Amount':component.find("Amount").get("v.value"),
