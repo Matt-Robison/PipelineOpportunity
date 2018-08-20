@@ -26,9 +26,15 @@
         component.find("utilityUIFunctions").showLoading(component);
         component.find("editForm").submit();
     },
+    //once PPO is created
     handleSavedNew: function(component, event, helper) {
+        var payload = event.getParams().response;
+        var recordId = payload.id;
+
         component.find("utilityUIFunctions").showToastSuccess(component, "Success!", "Opportunity Created");
         component.find("utilityUIFunctions").hideLoading(component);
+
+        component.set("v.recordId", recordId);
 
         //fire event to update the child Opportunities
         var appEvent = $A.get("e.c:PipelineOpportunity_aevt_ReloadChildren");

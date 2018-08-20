@@ -1,5 +1,4 @@
 <!--TODO-me add component design for NEW OPP record page-->
-<!--TODO-me BUG on create new transition to view/edit and load children-->
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="PipelineOpportunityControllerLightning">
     <!-- ATTRIBUTES -->
     <aura:attribute name="recordId" type="Id" default="0065D000003S0YMQA0"/>
