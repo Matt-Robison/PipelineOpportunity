@@ -38,7 +38,6 @@
         $A.enqueueAction(action);
     },
     closeModal: function(component, event, helper) {
-        //display bulk toggle on fields loaded
         component.find("overlayLib").notifyClose();
     },
     //disable button and set spinner
