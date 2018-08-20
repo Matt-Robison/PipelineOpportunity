@@ -14,6 +14,15 @@
         helper.getChildOpportunities(component, event, helper);
     },
 
+    // reload child opportunity event handler
+    reloadChildOpportunityDataEvent : function (component, event, helper) {
+        var recordId = event.getParam("recordId");
+
+        //if new recordId passed, set to new id
+        if(typeof recordId !== "undefined" && recordId != "") { component.set("v.recordId", recordId); }
+        helper.getChildOpportunities(component, event, helper);
+    },
+
     // reload child opportunity data
     reloadChildOpportunityData : function (component, event, helper) {
         helper.getChildOpportunities(component, event, helper);

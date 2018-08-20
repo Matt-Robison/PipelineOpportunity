@@ -13,9 +13,9 @@
 
     <!-- EVENTS -->
     <!--Handle component event for child components-->
-    <aura:handler name="reloadChildOpportunityData" event="c:PipelineOpportunity_evt_Action" action="{!c.reloadChildOpportunityData}"/>
+    <aura:handler name="reloadChildOpportunityData" event="c:PipelineOpportunity_evt_Action" action="{!c.reloadChildOpportunityDataEvent}"/>
     <!--Handle application events for non related components-->
-    <aura:handler event="c:PipelineOpportunity_aevt_ReloadChildren" action="{!c.reloadChildOpportunityData}"/>
+    <aura:handler event="c:PipelineOpportunity_aevt_ReloadChildren" action="{!c.reloadChildOpportunityDataEvent}"/>
 
     <!-- MODAL LIBRARY -->
     <lightning:overlayLibrary aura:id="overlayLib"/>

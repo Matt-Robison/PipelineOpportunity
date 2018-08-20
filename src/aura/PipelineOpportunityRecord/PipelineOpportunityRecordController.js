@@ -36,10 +36,12 @@
 
         component.set("v.recordId", recordId);
 
-        //fire event to update the child Opportunities
+        //set new recordId and fire event to update the child Opportunities
         var appEvent = $A.get("e.c:PipelineOpportunity_aevt_ReloadChildren");
+        appEvent.setParam("recordId", recordId);
         appEvent.fire();
     },
+    //PPO edit success
     handleSavedEdit: function(component, event, helper) {
         component.find("utilityUIFunctions").showToastSuccess(component, "Success!", "Opportunity Saved");
         component.find("utilityUIFunctions").hideLoading(component);
