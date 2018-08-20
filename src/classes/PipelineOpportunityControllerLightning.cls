@@ -100,6 +100,7 @@ public with sharing class PipelineOpportunityControllerLightning {
         return numUpdated;
     }
 
+    //TODO-me SOQL should be pulled form Opportuntity Id passed from component and not using own logic
     //get Opportunity last close date PCO or if none exists get PPO
     private static Opportunity getNewDefaultChildOpportunity(String parentOpportunityId, Opportunity newOpportunity) {
         Opportunity oppy = NULL;
