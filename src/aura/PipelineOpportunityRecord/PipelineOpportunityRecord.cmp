@@ -1,8 +1,11 @@
 <!--TODO-me add component design for NEW OPP record page-->
 <!--TODO-me BUG record doesn't update view on edit save-->
+<!--TODO-me BUG get/set recordTypeId for Create PPO-->
+<!--TODO-me BUG on create new transition to view/edit and load children-->
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="PipelineOpportunityControllerLightning">
     <!-- ATTRIBUTES -->
-    <aura:attribute name="recordId" type="Id" default="0065D000003OTvaQAG"/>
+    <aura:attribute name="recordId" type="Id" default="0065D000003S0YMQA0"/>
+    <!--<aura:attribute name="recordId" type="Id" default=""/>-->
     <aura:attribute name="sourceRecord" type="Object" />
     <aura:attribute name="sourceRecordFields" type="String[]" default="['Name','AccountId','CosmosDonorID__c','OwnerId','Count_Child_Opportunities__c','Child_Opportunity_Total__c', 'Description_Short__c',
                                                          'Description','CloseDate','StageName','npsp__Primary_Contact__c','CopyCloseDatetoChildOpportunities__c','CopyStagetoChildOpportunities__c']" />
@@ -15,71 +18,107 @@
     <!-- UTILITY FUNCTIONS -->
     <c:UtilityUIFunctions aura:id="utilityUIFunctions" />
 
-    <!--View mode for opportunity-->
-    <lightning:card aura:id="viewCard" iconName="standard:user" title="Pipeline">
-        <aura:set attribute="actions">
-            <lightning:button onclick="{!c.edit}" name="edit" label="Edit"/>
-            <lightning:button onclick="{!c.myPipeline}" name="myPipeline" label="My Pipeline"/>
-        </aura:set>
-        <aura:if isTrue="{!v.loading}">
-            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
-        </aura:if>
-        <p class="slds-p-horizontal_small">
-            <lightning:recordViewForm recordId="{!v.recordId}"
-                                      objectApiName="Opportunity">
-                <lightning:layout multipleRows="true">
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Name" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CosmosDonorID__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="OwnerId" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="AccountId" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Count_Child_Opportunities__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Child_Opportunity_Total__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Description_Short__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Description" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CloseDate" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="StageName" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CopyCloseDatetoChildOpportunities__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
-                </lightning:layout>
-            </lightning:recordViewForm>
-        </p>
-    </lightning:card>
-    <!--END View mode for opportunity-->
-
-    <!--Edit mode for opportunity-->
-    <lightning:card aura:id="editCard" iconName="standard:user" title="Edit Pipeline" class="slds-hide">
-        <aura:set attribute="actions">
-                <lightning:button onclick="{!c.cancel}" name="cancel" label="Cancel"/>
+    <!--If recordId blank then in Create mode-->
+    <aura:if isTrue="{!v.recordId == ''}">
+        <!--New mode for opportunity-->
+        <lightning:card aura:id="editCard" iconName="standard:user" title="Create New Pipeline Opportunity">
+            <aura:set attribute="actions">
                 <lightning:button variant="brand" onclick="{!c.submitForm}" name="save" label="Save"/>
+                <lightning:button onclick="{!c.myPipeline}" name="myPipeline" label="My Pipeline"/>
+            </aura:set>
+            <aura:if isTrue="{!v.loading}">
+                <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
+            </aura:if>
+            <p class="slds-p-horizontal_small">
+                <lightning:recordEditForm aura:id="editForm"
+                                          onsuccess="{!c.handleSavedNew}"
+                                          onload="{!c.handleLoaded}"
+                                          recordId="{!v.recordId}"
+                                          objectApiName="Opportunity">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12" padding="around-small"><lightning:messages /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="AccountId" /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description_Short__c" /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description" /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CloseDate" /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="StageName" /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyCloseDatetoChildOpportunities__c" onchange="{!c.copyStageToChildren}"/></lightning:layoutItem>
+                        <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:recordEditForm>
+            </p>
+        </lightning:card>
+        <!--END New mode for opportunity-->
+        <!--If recordId has value then in View/Edit mode-->
+        <aura:set attribute="else">
+            <!--View mode for opportunity-->
+            <lightning:card aura:id="viewCard" iconName="standard:user" title="Pipeline">
+                <aura:set attribute="actions">
+                    <lightning:button onclick="{!c.edit}" name="edit" label="Edit"/>
+                    <lightning:button onclick="{!c.myPipeline}" name="myPipeline" label="My Pipeline"/>
+                </aura:set>
+                <aura:if isTrue="{!v.loading}">
+                    <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
+                </aura:if>
+                <p class="slds-p-horizontal_small">
+                    <lightning:recordViewForm recordId="{!v.recordId}"
+                                              objectApiName="Opportunity">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Name" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CosmosDonorID__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="OwnerId" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="AccountId" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Count_Child_Opportunities__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Child_Opportunity_Total__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Description_Short__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="Description" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CloseDate" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="StageName" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CopyCloseDatetoChildOpportunities__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" class="slds-border_bottom"><lightning:outputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </p>
+            </lightning:card>
+            <!--END View mode for opportunity-->
+
+            <!--Edit mode for opportunity-->
+            <lightning:card aura:id="editCard" iconName="standard:user" title="Edit Pipeline" class="slds-hide">
+                <aura:set attribute="actions">
+                    <lightning:button variant="brand" onclick="{!c.submitForm}" name="save" label="Save"/>
+                    <lightning:button onclick="{!c.cancel}" name="cancel" label="Cancel"/>
+                </aura:set>
+                <aura:if isTrue="{!v.loading}">
+                    <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
+                </aura:if>
+                <p class="slds-p-horizontal_small">
+                    <lightning:recordEditForm aura:id="editForm"
+                                              onsuccess="{!c.handleSavedEdit}"
+                                              onload="{!c.handleLoaded}"
+                                              recordId="{!v.recordId}"
+                                              objectApiName="Opportunity">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" padding="around-small"><lightning:messages /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Name"/></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="CosmosDonorID__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="OwnerId" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="AccountId" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Count_Child_Opportunities__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Child_Opportunity_Total__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description_Short__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CloseDate" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="StageName" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyCloseDatetoChildOpportunities__c" onchange="{!c.copyStageToChildren}"/></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordEditForm>
+                </p>
+            </lightning:card>
+            <!--END Edit mode for opportunity-->
         </aura:set>
-        <aura:if isTrue="{!v.loading}">
-            <lightning:spinner aura:id="spinner" alternativeText="Loading" size="medium" />
-        </aura:if>
-        <p class="slds-p-horizontal_small">
-            <lightning:recordEditForm aura:id="editForm"
-                                      onsuccess="{!c.handleSaved}"
-                                      onload="{!c.handleLoaded}"
-                                      recordId="{!v.recordId}"
-                                      objectApiName="Opportunity">
-                <lightning:layout multipleRows="true">
-                    <lightning:layoutItem size="12" padding="around-small"><lightning:messages /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Name"/></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="CosmosDonorID__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="OwnerId" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="AccountId" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Count_Child_Opportunities__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:outputField fieldName="Child_Opportunity_Total__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description_Short__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="Description" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CloseDate" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="StageName" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyCloseDatetoChildOpportunities__c" onchange="{!c.copyStageToChildren}"/></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="CopyStagetoChildOpportunities__c" /></lightning:layoutItem>
-                    <lightning:layoutItem size="6" padding="horizontal-small"><lightning:inputField fieldName="npsp__Primary_Contact__c" /></lightning:layoutItem>
-                </lightning:layout>
-            </lightning:recordEditForm>
-        </p>
-    </lightning:card>
-    <!--END Edit mode for opportunity-->
+    </aura:if>
 </aura:component>

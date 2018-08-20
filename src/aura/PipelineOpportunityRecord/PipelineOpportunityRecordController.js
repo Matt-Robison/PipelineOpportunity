@@ -22,7 +22,15 @@
         component.find("utilityUIFunctions").showLoading(component);
         component.find("editForm").submit();
     },
-    handleSaved: function(component, event, helper) {
+    handleSavedNew: function(component, event, helper) {
+        component.find("utilityUIFunctions").showToastSuccess(component, "Success!", "Opportunity Created");
+        component.find("utilityUIFunctions").hideLoading(component);
+
+        //fire event to update the child Opportunities
+        var appEvent = $A.get("e.c:PipelineOpportunity_aevt_ReloadChildren");
+        appEvent.fire();
+    },
+    handleSavedEdit: function(component, event, helper) {
         component.find("utilityUIFunctions").showToastSuccess(component, "Success!", "Opportunity Saved");
         component.find("utilityUIFunctions").hideLoading(component);
         helper.showHide(component);
