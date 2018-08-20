@@ -36,6 +36,7 @@
         } else {
             var parentOppty = component.get("v.parentOppty");
 
+            // TODO-me default correct record type
             //create default opportunity based off Parent
             defaultOppty = { sobjectType: "Opportunity",
                 Name: parentOppty.Name,
