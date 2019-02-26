@@ -2,8 +2,7 @@
 <!--TODO-me Button Edit record after create new doesn't show edit form-->
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="PipelineOpportunityControllerLightning">
     <!-- ATTRIBUTES -->
-    <aura:attribute name="recordId" type="Id" default="0065D000003S0YMQA0"/>
-    <!--<aura:attribute name="recordId" type="Id" default=""/>-->
+    <aura:attribute name="recordId" type="Id" default=""/>
     <aura:attribute name="sourceRecord" type="Object" />
     <aura:attribute name="sourceRecordFields" type="String[]" default="['Name','AccountId','CosmosDonorID__c','OwnerId','Count_Child_Opportunities__c','Child_Opportunity_Total__c', 'Description_Short__c',
                                                          'Description','CloseDate','StageName','npsp__Primary_Contact__c','CopyCloseDatetoChildOpportunities__c','CopyStagetoChildOpportunities__c']" />
