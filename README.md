@@ -1,5 +1,5 @@
 # Pipeline Opportunity Management - Lightning Components
-Custom Lightning Application allowing easy opportunity pipeline management of ongoing donations. Business requirement was to manage via a single page and not having page refresh with older Visualforce solution.
+Custom Lightning Application allowing easy opportunity pipeline management of ongoing donations. Business requirement was to manage via a single page and not having page refreshing that happened in older Visualforce solution.
 
 Use Case is a donation manager adding a business who will be making significant monthly donations and needs tracking within their opportunity pipeline.
 
