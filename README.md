@@ -9,7 +9,7 @@ Use Case is a donation manager adding a business who will be making significant 
 **Modal popup to manage custom pipeline changes**
 ![modal popup custom logic](https://user-images.githubusercontent.com/42108324/53407653-c75a9180-3a10-11e9-95a0-75bb35e5d717.png)
 
-**Real time swaping from Read Mode to Edit Mode of parent Opportunity**
+**Real time swapping from Read Mode to Edit Mode of parent Opportunity**
 ![read only - edit swapping](https://user-images.githubusercontent.com/42108324/53407671-d0e3f980-3a10-11e9-9eef-42d5bd9e0116.png)
 
 **Inline table editing of child ongoing donation**
@@ -19,7 +19,7 @@ Use Case is a donation manager adding a business who will be making significant 
 ![lightning app builder](https://user-images.githubusercontent.com/42108324/53407698-e0fbd900-3a10-11e9-9ad5-9c778a2a2a15.png)
 
 ## Technical Notes
-* Component Modeling used, 4 independent components created. Parent Opportunity Read/Edit, Child Opportunities List, Add Child Opportunity (modal popup) and Adjust Date (modal popup)
+* Component Modelling used, 4 independent components created. Parent Opportunity Read/Edit, Child Opportunities List, Add Child Opportunity (modal popup) and Adjust Date (modal popup)
 * Uses combination of both Application and Component Events, along with Attribute passing to communicate between components
 * Modal popup components
 * Common Utility library components used across all components, controls common features like animation Loader eg. UtilityUIFunctions.js
