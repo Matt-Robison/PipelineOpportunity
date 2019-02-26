@@ -1,0 +1,3 @@
+<aura:documentation>
+	<aura:description>Display opportunity record and allows for a Read/Write mode</aura:description>
+</aura:documentation>
