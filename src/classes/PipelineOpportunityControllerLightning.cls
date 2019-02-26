@@ -1,10 +1,17 @@
-//TODO-me - documentation
+/*-----------------------------------------------------------------------------------------
+Author: Matt Robison
+Description : Provide Web Service functionality to Pipeline Opportunity Lightning Components
+Test Class : PipelineOpportunityControllerLightningTest
+/*-----------------------------------------------------------------------------------------*/
+
 public with sharing class PipelineOpportunityControllerLightning {
+    //get Partnerships Parent Opportunity record Id
     @AuraEnabled
     public static String getPPORecordTypeId() {
-        return Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('PartnershipsParentOpportunity').getRecordTypeId();
+        return getOpportunityRecordTypeId('PartnershipsParentOpportunity');
     }
 
+    //get child opportunities for a parent opportunity
     @AuraEnabled
     public static List<Opportunity> getChildOpportunities(String parentOpportunityId) {
         List <Opportunity> oppyList;
@@ -21,6 +28,7 @@ public with sharing class PipelineOpportunityControllerLightning {
         return oppyList;
     }
 
+    //update Opportunity
     @AuraEnabled
     public static boolean updateOpportunities(List<Opportunity> editedOpportunityList) {
         try {
@@ -91,6 +99,7 @@ public with sharing class PipelineOpportunityControllerLightning {
 
             if (!oppyList.isEmpty())
             {
+                //loop through each child opportunity and add or subtract number of months
                 for (Opportunity ol :oppyList)
                 {
                     ol.CloseDate = ol.CloseDate.addMonths(months);
@@ -105,12 +114,12 @@ public with sharing class PipelineOpportunityControllerLightning {
         return numUpdated;
     }
 
-    //TODO-me SOQL should be pulled form Opportuntity Id passed from component and not using own logic
-    //get Opportunity last close date PCO or if none exists get PPO
+    //TODO-mattr SOQL should be pulled from Opportuntity Id passed from component and not using own logic
+    //get Opportunity last close date Partnership Child Opportunity or if none exists get Parternship Parent Opportunity
     private static Opportunity getNewDefaultChildOpportunity(String parentOpportunityId, Opportunity newOpportunity) {
         Opportunity oppy = NULL;
 
-        //get last close date PCO or if none exists get PPO
+        //get last close date Partnership Child Opportunity or if none exists get Partnership Parent Opportunity
         List<Opportunity> oppyList = [
                 SELECT Id, AccountId, Name, Amount, CloseDate, StageName, Type, C2parentopportunity__c, Description_Short__c, Description, CampaignId
                 FROM Opportunity
@@ -142,6 +151,7 @@ public with sharing class PipelineOpportunityControllerLightning {
         return oppy;
     }
 
+    //get Opportunity Record Type Id by Developer Name
     private static Id getOpportunityRecordTypeId(String devName) {
         return Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get(devName).getRecordTypeId();
     }
