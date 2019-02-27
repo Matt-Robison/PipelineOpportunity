@@ -22,7 +22,7 @@ public with sharing class PipelineOpportunityControllerLightning {
                 WHERE C2parentopportunity__c = :parentOpportunityId
                 AND StageName != 'Created in error'
                 ORDER BY CloseDate ASC
-                LIMIT 10000
+                LIMIT 500
         ];
 
         return oppyList;
